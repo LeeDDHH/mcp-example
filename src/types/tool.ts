@@ -1,5 +1,7 @@
 import { z } from "zod";
 
+export type ArgsType = Record<string, unknown>;
+
 export type ToolSchema = Record<string, z.ZodTypeAny>;
 
 export type ToolResponse = {
@@ -14,7 +16,7 @@ export type ToolDefinition = {
   description: string;
   schema: ToolSchema;
   handler: (
-    args: Record<string, unknown>,
-    extra?: Record<string, unknown>
+    args: ArgsType,
+    extra?: ArgsType
   ) => Promise<ToolResponse>;
 };
