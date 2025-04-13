@@ -2,7 +2,7 @@ import { z } from "zod";
 
 export type ArgsType = Record<string, unknown>;
 
-export type ToolSchema = Record<string, z.ZodTypeAny>;
+export type ToolSchema = Record<string, z.ZodTypeAny> | {[key: string]: never};
 
 export type ToolResponse = {
   content: Array<{

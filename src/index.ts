@@ -1,6 +1,8 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { doubleNumberTool } from "./tools/double_number/index.js";
+import { getTestTextTool } from "./tools/get_test_text/index.js";
+import { getTestWithEnv } from "./tools/get_test_with_env/index.js";
 
 const server = new McpServer({
   name: "mcp-example",
@@ -15,16 +17,19 @@ server.tool(
   doubleNumberTool.handler
 );
 
-server.tool("get_test_text", "テスト用の文字列データを取得する", {}, async () => {
-  const resp = await fetch("http://localhost:3000/test");
-  const body = await resp.text();
-  return { content: [{ type: "text", text: body }] };
-});
+server.tool(
+  getTestTextTool.name,
+  getTestTextTool.description,
+  getTestTextTool.schema,
+  getTestTextTool.handler
+);
 
-server.tool("get_test_with_env", "環境変数からデータを取得する", {}, async () => {
-  const foo = process.env.FOO ?? "";
-  return { content: [{ type: "text", text: foo }] };
-});
+server.tool(
+  getTestWithEnv.name,
+  getTestWithEnv.description,
+  getTestWithEnv.schema,
+  getTestWithEnv.handler
+);
 
 async function main() {
   const transport = new StdioServerTransport();
