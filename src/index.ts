@@ -1,30 +1,25 @@
-import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { doubleNumberTool } from "./tools/double_number/index.js";
 import { getTestTextTool } from "./tools/get_test_text/index.js";
 import { getTestWithEnv } from "./tools/get_test_with_env/index.js";
-
-const server = new McpServer({
-  name: "mcp-example",
-  version: "1.0.0",
-});
+import { mcpServer } from "./server.js";
 
 // ツールの登録
-server.tool(
+mcpServer.tool(
   doubleNumberTool.name,
   doubleNumberTool.description,
   doubleNumberTool.schema,
   doubleNumberTool.handler
 );
 
-server.tool(
+mcpServer.tool(
   getTestTextTool.name,
   getTestTextTool.description,
   getTestTextTool.schema,
   getTestTextTool.handler
 );
 
-server.tool(
+mcpServer.tool(
   getTestWithEnv.name,
   getTestWithEnv.description,
   getTestWithEnv.schema,
@@ -33,7 +28,7 @@ server.tool(
 
 async function main() {
   const transport = new StdioServerTransport();
-  await server.connect(transport);
+  await mcpServer.connect(transport);
   console.error("Example MCP Server running on stdio");
 }
 
